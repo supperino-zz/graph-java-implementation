@@ -184,7 +184,10 @@ public class Graph {
 		return false;
 	}
 	/*
-	 * Busca em profundidade
+	 * Busca de um ID, buscando em um nodo
+	 * este codigo Apenas procura os nodos com grau de entrada = 0
+	 * e executa o metodo de busca em profundidade
+	 * caso contrario retorna null
 	 * */
 	Node search(int id) {
 	    Deque<Node> status = new ArrayDeque<Node>();
@@ -209,7 +212,13 @@ public class Graph {
 	    }
 	    return null;
 	}
-	
+	/*
+	*Pensado no uso de recursao
+	*O nodo n deve ter grau de entrada = 0
+	*Verifica se ele ja foi visitado
+	*caso tenha sido visitado, tira ele da pilha, e vai para o proximo adjacente nodo
+	* Executa a recursao
+	*/
 	List<Node> depthFirstSearch(Node n, Deque<Node> status, List<Node> visited) {
 	    status.push(n);
 	    visited.add(n);
