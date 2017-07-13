@@ -1,5 +1,6 @@
+import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Deque;
 import java.util.List;
 
 public class Graph {
@@ -182,4 +183,78 @@ public class Graph {
 		visited.remove(a);
 		return false;
 	}
+	/*
+	 * Busca em profundidade
+	 * */
+	Node search(int id) {
+	    Deque<Node> status = new ArrayDeque<Node>();
+	    //pega o nodo com ordem de entrada = 0
+	    List<Node> sentinel = new ArrayList<Node>();
+	    List<Node> visited = new ArrayList<Node>();
+	    
+	    for(Node n : nodes) {
+	        for(Node m : nodes ) {
+	            if(!m.connectedNodes.contains(n)) {
+	                sentinel.add(n);
+	            }
+	        }
+	    }
+	    
+	    for(Node n : sentinel) {
+	        for(Node m : depthFirstSearch(n, status, visited)) {
+	            if(m.getId() == id) {
+	                return m;
+	            }
+	        }
+	    }
+	    return null;
+	}
+	
+	List<Node> depthFirstSearch(Node n, Deque<Node> status, List<Node> visited) {
+	    status.push(n);
+	    visited.add(n);
+	    for(Node vs : n.connectedNodes) {
+	        if(!visited.contains(vs)) {
+	            status.push(vs);
+	            visited.add(vs);
+	            depthFirstSearch(status.pop(), status, visited);
+	        } else {
+	            status.pop();
+	        }
+	    }
+	    return visited;
+	}
+	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

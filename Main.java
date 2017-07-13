@@ -32,6 +32,8 @@ public class Main {
 		System.out.println("grafo é completo: "+ graph.completeGraph());
 		System.out.println("grafo é conexo: "+graph.isConnected());
 		System.out.println("fecho transitivo: "+graph.transitiveClosure(n1).toString());
+		
+		System.out.println("busca do nodo com id = 5: "+graph.search(1));
 	}
 
 }
