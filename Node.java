@@ -1,5 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Node {
 	/*Toda vez que incializa o construtor de node, cria um id unico.
@@ -7,10 +7,10 @@ public class Node {
 	public Node () {
 		instanceCounter++;
 		id = instanceCounter;
-		connectedNodes = new ArrayList<Node>();
+		connectedNodes = new HashMap<Node, Integer>();
 	}
 	
-	List<Node> connectedNodes;
+	Map<Node, Integer> connectedNodes;
 	private int id = 0;
 	static int instanceCounter = 0;
 	
