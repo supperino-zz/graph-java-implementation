@@ -2,7 +2,9 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import java.util.Set;
 
+//Implementação de um Digrafo (um grafo orientado) 
 public class Graph {
 	public Graph() {
 		nodes  = new ArrayList<Node>();
@@ -30,16 +32,20 @@ public class Graph {
 	/*Conecta dois nodos
 	 * @param - os dois nodos a serem conectados
 	 * */
-	void connectNode(Node a, Node b) {
-		a.connectedNodes.add(b);
+	void connectNode(Node a, Node b, int weight) {
+	    if(weight <= 0 ) {
+	        a.connectedNodes.put(b, 1);
+	    } else {
+	        a.connectedNodes.put(b, weight);
+	    }    
 	}
 	/*Disconecta nodos
 	 * @param - Dois nodos para serem disconectados
 	 * */
 	void disconnectNode(Node a, Node b) {
-		if(a.connectedNodes.contains(b)) {
+		if(a.connectedNodes.containsValue(b)) {
 			a.connectedNodes.remove(b);
-		} else if (b.connectedNodes.contains(b)) {
+		} else if (b.connectedNodes.containsValue(a)) {
 			b.connectedNodes.remove(b);
 		} else {
 			System.out.println("os dois nodos não estao conectados");
@@ -79,8 +85,11 @@ public class Graph {
 	 * @return - Lista de nodos adjacentes
 	 * */
 	List<Node> adjacentNodes(Node a) {
+	    List<Node> adjacentNodes ;
 		if(nodes.contains(a)) {
-			return a.connectedNodes;
+		    Set<Node> setNodes = a.connectedNodes.keySet();
+		    adjacentNodes = new ArrayList<Node>(setNodes);
+			return adjacentNodes;
 		}
 		return null;
 	}
@@ -162,7 +171,7 @@ public class Graph {
 		return visited;
 	}
 	/*
-	 * Checa se há ciclos no código
+	 * Checa se há ciclos no grafo
 	 * @param a -  Nodo principal
 	 * @param prev - Nodo anterior ao nodo principal
 	 * @param visited - Lista de nodos ja buscados.
@@ -184,10 +193,7 @@ public class Graph {
 		return false;
 	}
 	/*
-	 * Busca de um ID, buscando em um nodo
-	 * este codigo Apenas procura os nodos com grau de entrada = 0
-	 * e executa o metodo de busca em profundidade
-	 * caso contrario retorna null
+	 * Busca em profundidade
 	 * */
 	Node search(int id) {
 	    Deque<Node> status = new ArrayDeque<Node>();
@@ -197,7 +203,7 @@ public class Graph {
 	    
 	    for(Node n : nodes) {
 	        for(Node m : nodes ) {
-	            if(!m.connectedNodes.contains(n)) {
+	            if(!m.connectedNodes.containsValue(n)) {
 	                sentinel.add(n);
 	            }
 	        }
@@ -212,17 +218,13 @@ public class Graph {
 	    }
 	    return null;
 	}
-	/*
-	*Pensado no uso de recursao
-	*O nodo n deve ter grau de entrada = 0
-	*Verifica se ele ja foi visitado
-	*caso tenha sido visitado, tira ele da pilha, e vai para o proximo adjacente nodo
-	* Executa a recursao
-	*/
+	
 	List<Node> depthFirstSearch(Node n, Deque<Node> status, List<Node> visited) {
 	    status.push(n);
 	    visited.add(n);
-	    for(Node vs : n.connectedNodes) {
+	    Set<Node> setConnected = n.connectedNodes.keySet();
+	    List<Node> ListConnected = new ArrayList<Node>(setConnected);
+	    for(Node vs : ListConnected) {
 	        if(!visited.contains(vs)) {
 	            status.push(vs);
 	            visited.add(vs);
@@ -233,5 +235,4 @@ public class Graph {
 	    }
 	    return visited;
 	}
-	
 }
