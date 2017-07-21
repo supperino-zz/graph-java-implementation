@@ -29,11 +29,11 @@ public class Graph {
 	void removeNode(Node a) {
 		nodes.remove(a);
 	}
-	/*Conecta dois nodos
+	/* Conecta dois nodos
 	 * @param - os dois nodos a serem conectados
 	 * */
 	void connectNode(Node a, Node b, int weight) {
-	    if(weight <= 0 ) {
+	    if(weight <= 0) {
 	        a.connectedNodes.put(b, 1);
 	    } else {
 	        a.connectedNodes.put(b, weight);
