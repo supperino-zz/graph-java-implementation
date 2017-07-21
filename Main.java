@@ -15,10 +15,10 @@ public class Main {
 		graph.addNode(n4);
 		graph.addNode(n5);
 		
-		graph.connectNode(n1, n2);
-		graph.connectNode(n1, n3);
-		graph.connectNode(n2, n4);
-		graph.connectNode(n2, n5);
+		graph.connectNode(n1, n2,1);
+		graph.connectNode(n1, n3,2);
+		graph.connectNode(n2, n4,3);
+		graph.connectNode(n2, n5,4); 
 		
 		if(graph.isTree()) {
 			System.out.println("é uma arvore");
@@ -32,8 +32,9 @@ public class Main {
 		System.out.println("grafo é completo: "+ graph.completeGraph());
 		System.out.println("grafo é conexo: "+graph.isConnected());
 		System.out.println("fecho transitivo: "+graph.transitiveClosure(n1).toString());
+		System.out.println("nodos adjacetes de n1: " + graph.adjacentNodes(n2)); 
 		
-		System.out.println("busca do nodo com id = 5: "+graph.search(1));
+		System.out.println("busca do nodo com id = 2: "+graph.search(2));
 	}
 
 }
