@@ -7,10 +7,10 @@ public class Node {
 	public Node () {
 		instanceCounter++;
 		id = instanceCounter;
-		connectedNodes = new HashMap<Node, Integer>();
+		connectedNodes = new HashMap<Integer,Node>();
 	}
 	
-	Map<Node, Integer> connectedNodes;
+	Map<Integer, Node> connectedNodes;
 	private int id = 0;
 	static int instanceCounter = 0;
 	
