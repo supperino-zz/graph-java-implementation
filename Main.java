@@ -35,6 +35,10 @@ public class Main {
 		System.out.println("nodos adjacetes de n1: " + graph.adjacentNodes(n2)); 
 		
 		System.out.println("busca do nodo com id = 2: "+graph.search(2));
+
+		System.out.println(graph.DijkstraDistance(n1));
+		
+		
 	}
 
 }
