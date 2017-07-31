@@ -293,14 +293,20 @@ public class Graph {
 	    distances.add(source.getId(), 0);
 	    
 	    for(Node n : nodes) {
+		//enquanto o nodo nao estiver marcado como visitado
 	        if (!visited.contains(n)) {
+			//calcula a minima distancia
 	            int minDistNode = minDistance(distances, n);
-	           
+	           	//marca como visitado
 	                visited.add(n);
+			//se ele tiver conexões 
 	                if(!n.connectedNodes.isEmpty()) {
+				//para cada conexão, vai somar a distancia origem-nodo+vizinho
 	                    for(int neighboor : n.connectedNodes.keySet()) {
 	                        int alt = (int) distances.get(n.getId())+neighboor;
 	                        System.out.println(neighboor+", id:"+ n.getId());
+				    //se, a distancia origem-nodo(atual)+vizinho for menor, que o caminho encontrado
+				    //da origem-nodo(vizinho), nodo vizinho recebe origem-nodo(atual)+vizinho
 	                        if( alt < (int)distances.get(n.connectedNodes.get(neighboor).getId()) ) {
 	                            distances.add(n.connectedNodes.get(neighboor).getId(), alt);
 	                        }
