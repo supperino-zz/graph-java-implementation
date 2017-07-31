@@ -1,6 +1,8 @@
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Deque;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -34,9 +36,9 @@ public class Graph {
 	 * */
 	void connectNode(Node a, Node b, int weight) {
 	    if(weight <= 0) {
-	        a.connectedNodes.put(b, 1);
+	        a.connectedNodes.put(1, b);
 	    } else {
-	        a.connectedNodes.put(b, weight);
+	        a.connectedNodes.put(weight, b);
 	    }    
 	}
 	/*Disconecta nodos
@@ -87,7 +89,7 @@ public class Graph {
 	List<Node> adjacentNodes(Node a) {
 	    List<Node> adjacentNodes ;
 		if(nodes.contains(a)) {
-		    Set<Node> setNodes = a.connectedNodes.keySet();
+		    Collection<Node> setNodes = a.connectedNodes.values();
 		    adjacentNodes = new ArrayList<Node>(setNodes);
 			return adjacentNodes;
 		}
@@ -222,7 +224,7 @@ public class Graph {
 	List<Node> depthFirstSearch(Node n, Deque<Node> status, List<Node> visited) {
 	    status.push(n);
 	    visited.add(n);
-	    Set<Node> setConnected = n.connectedNodes.keySet();
+	    Collection<Node> setConnected =  n.connectedNodes.values();
 	    List<Node> ListConnected = new ArrayList<Node>(setConnected);
 	    for(Node vs : ListConnected) {
 	        if(!visited.contains(vs)) {
@@ -235,4 +237,84 @@ public class Graph {
 	    }
 	    return visited;
 	}
+	
+	
+	/*
+	List DijkstraDistance(Node source, List distances, List visited) {
+	    for(Node n : nodes) {
+	       if(n == source && !visited.contains(n)) {
+	           //System.out.println(n);
+	           visited.add(n);
+	           int mindist = minDistance(n);
+	            //System.out.println(mindist);
+	           DijkstraDistance(n.connectedNodes.get(mindist), distances, visited);
+	           distances.add(mindist);
+	       }
+	    }
+	    return distances;
+	}
+	
+	int shortestPath(Node source) {
+	    List<Integer> distances = new ArrayList();
+	    List<Node> visited = new ArrayList<Node>();
+	    int distance = 0;
+	    System.out.println(DijkstraDistance(source, distances, visited));
+	    
+	    
+	    
+	    return distance;
+	} */ 
+	
+	int minDistance(List<Integer> distance, Node source) {
+        int minValue = Integer.MAX_VALUE;
+        int index = 0;
+        if(!source.connectedNodes.isEmpty()) {
+            for(int i = 1; i< distance.size(); i++) {
+                if(distance.get(i) < minValue) {
+                    minValue = distance.get(i);
+                    index = i;
+                }
+            }
+            return index;
+        }
+        return 0;
+        
+    }
+
+	List DijkstraDistance (Node source) {
+	    List<Node> visited = new ArrayList<Node>();
+	    List distances = new ArrayList(); //distancia origem-nodo
+	    //seting all nodes maximum size
+	    distances.add(0, null);
+	    for(Node n : nodes ) {
+	        distances.add(n.getId(), Integer.MAX_VALUE);
+	    }
+	    //set source node to minimum distance.
+	    distances.add(source.getId(), 0);
+	    
+	    for(Node n : nodes) {
+	        if (!visited.contains(n)) {
+	            int minDistNode = minDistance(distances, n);
+	           
+	                visited.add(n);
+	                if(!n.connectedNodes.isEmpty()) {
+	                    for(int neighboor : n.connectedNodes.keySet()) {
+	                        int alt = (int) distances.get(n.getId())+neighboor;
+	                        System.out.println(neighboor+", id:"+ n.getId());
+	                        if( alt < (int)distances.get(n.connectedNodes.get(neighboor).getId()) ) {
+	                            distances.add(n.connectedNodes.get(neighboor).getId(), alt);
+	                        }
+	                    }
+	                }
+
+	        }
+	    }
+	    List finalDistances = new ArrayList();
+	    finalDistances.add(0, null);
+	    for(int i = 0; i < nodes.size()+1; i++) {
+	        finalDistances.add(i, distances.get(i));
+	    }
+	    return finalDistances;
+	}
+	
 }
